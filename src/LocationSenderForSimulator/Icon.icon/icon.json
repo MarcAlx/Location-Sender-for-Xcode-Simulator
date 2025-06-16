@@ -1,0 +1,41 @@
+{
+  "fill" : {
+    "automatic-gradient" : "extended-srgb:0.00000,0.47843,1.00000,1.00000"
+  },
+  "groups" : [
+    {
+      "layers" : [
+        {
+          "blend-mode" : "lighten",
+          "fill" : {
+            "automatic-gradient" : "display-p3:0.96611,0.96338,0.90288,1.00000"
+          },
+          "hidden" : false,
+          "image-name" : "cellphone-marker.svg",
+          "name" : "cellphone-marker",
+          "position" : {
+            "scale" : 35,
+            "translation-in-points" : [
+              -9.483951996763867,
+              -27.671423362755057
+            ]
+          }
+        }
+      ],
+      "shadow" : {
+        "kind" : "neutral",
+        "opacity" : 0.5
+      },
+      "translucency" : {
+        "enabled" : true,
+        "value" : 0.5
+      }
+    }
+  ],
+  "supported-platforms" : {
+    "circles" : [
+      "watchOS"
+    ],
+    "squares" : "shared"
+  }
+}
