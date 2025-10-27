@@ -2,19 +2,7 @@ import MapKit
 import SwiftUI
 import Foundation
 
-struct Location: Equatable {
-    public var address: String
-    public var coordinates: CLLocationCoordinate2D
-    
-    // checks equity
-    static func == (lhs: Location, rhs: Location) -> Bool {
-           lhs.address == rhs.address
-        && lhs.coordinates.latitude == rhs.coordinates.latitude
-        && lhs.coordinates.longitude == rhs.coordinates.longitude
-    }
-}
-
-struct ContentView: View {
+struct MainView: View {
     //address tapped by user
     @State private var address: String = ""
     
@@ -79,7 +67,7 @@ struct ContentView: View {
                     Text("Searched/clicked location: \(selectedLocation.address)")
                     Spacer()
                     Button("Send to simulator", systemImage: "paperplane") {
-                        print(shell("xcrun simctl location booted set \(selectedLocation.coordinates.latitude),\(selectedLocation.coordinates.longitude)"))
+                        print(runShell(command: "xcrun simctl location booted set \(selectedLocation.coordinates.latitude),\(selectedLocation.coordinates.longitude)"))
                     }
                 }
             }
@@ -126,41 +114,8 @@ struct ContentView: View {
         }
     }
     
-    ///
-    /// converts a placem mark to a human readable address
-    ///
-    func inlineAddress(from placemark: CLPlacemark) -> String {
-        let name = placemark.name ?? ""
-        let street = placemark.thoroughfare ?? ""
-        let city = placemark.locality ?? ""
-        let state = placemark.administrativeArea ?? ""
-        let postalCode = placemark.postalCode ?? ""
-        let country = placemark.country ?? ""
-
-        return "\(name)\(name != "" && street != "" ? ", " : " ")\(street)\(street != "" && postalCode != "" ? ", " : " ")\(postalCode)\(postalCode != "" && city != "" ? ", " : " ") \(city)\(city != "" && state != "" ? ", " : " ")\(state)\(state != "" && country != "" ? ", " : " ")\(country)"
-    }
-    
-    ///
-    /// run a shell command, requires that the app is not sandboxed
-    ///
-    private func shell(_ command: String) -> String {
-        let task = Process()
-        let pipe = Pipe()
-        
-        task.standardOutput = pipe
-        task.standardError = pipe
-        task.arguments = ["-c", command]
-        task.launchPath = "/bin/zsh"
-        task.standardInput = nil
-        task.launch()
-        
-        let data = pipe.fileHandleForReading.readDataToEndOfFile()
-        let output = String(data: data, encoding: .utf8)!
-        
-        return output
-    }
 }
 
 #Preview {
-    ContentView()
+    MainView()
 }
