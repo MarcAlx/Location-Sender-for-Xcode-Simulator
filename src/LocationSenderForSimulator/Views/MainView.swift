@@ -62,13 +62,17 @@ struct MainView: View {
                      }
             }
             //summary area
-            HStack{
-                if let selectedLocation {
-                    Text("Searched/clicked location: \(selectedLocation.address)")
-                    Spacer()
-                    Button("Send to simulator", systemImage: "paperplane") {
-                        print(runShell(command: "xcrun simctl location booted set \(selectedLocation.coordinates.latitude),\(selectedLocation.coordinates.longitude)"))
+            if let selectedLocation {
+                GroupBox {
+                    HStack{
+                        Text("Searched/clicked location: \(selectedLocation.address)")
+                        Spacer()
+                        Button("Send to simulator", systemImage: "paperplane") {
+                            print(runShell(command: "xcrun simctl location booted set \(selectedLocation.coordinates.latitude),\(selectedLocation.coordinates.longitude)"))
+                        }
                     }
+                } label: {
+                  Label("Location on map", systemImage: "mappin.and.ellipse")
                 }
             }
         }.padding()
