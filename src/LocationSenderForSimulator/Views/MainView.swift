@@ -5,7 +5,7 @@ import Foundation
 struct MainView: View {
     var body: some View {
         TabView {
-            Tab("Search", systemImage: "magnifyingglass") {
+            Tab("tab.search", systemImage: "magnifyingglass") {
                 SearchView()
             }
         }.toolbar {
@@ -15,7 +15,7 @@ struct MainView: View {
                         EnvironmentValues().openURL(url) 
                     }
                 }) {
-                    Label("Info", systemImage: "info.circle")
+                    Label("button.info", systemImage: "info.circle")
                 }
             }
         }
