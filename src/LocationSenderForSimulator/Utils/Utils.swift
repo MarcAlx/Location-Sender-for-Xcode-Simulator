@@ -33,3 +33,8 @@ public func runShell(command: String) -> String {
     
     return output
 }
+
+/// send location to simulator
+public func sendToSimulator(location: Location){
+    print(runShell(command: "xcrun simctl location booted set \(location.coordinates.latitude),\(location.coordinates.longitude)"))
+}
