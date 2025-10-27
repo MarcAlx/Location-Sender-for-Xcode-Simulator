@@ -17,7 +17,10 @@ struct ContentView: View {
     var body: some View {
         VStack {
             HStack{
-                TextField("search for a location", text: $address)
+                TextField("search for a location", text: $address).onSubmit {
+                    //on enter search
+                    self.geocode(address: self.address)
+                }
                 Button {
                     self.geocode(address: self.address)
                 } label: {
