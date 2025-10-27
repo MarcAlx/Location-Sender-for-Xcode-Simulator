@@ -14,6 +14,9 @@ struct SearchView: View {
     
     //current
     @State private var currentSpan = MKCoordinateSpan(latitudeDelta: 0.030, longitudeDelta: 0.030)
+        
+    //if true location is automatically sent to simulator
+    @State private var isTracking:Bool = false
     
     var body: some View {
         VStack {
@@ -67,15 +70,23 @@ struct SearchView: View {
                     HStack{
                         Text("Searched/clicked location: \(selectedLocation.address)")
                         Spacer()
-                        Button("Send to simulator", systemImage: "paperplane") {
-                            print(runShell(command: "xcrun simctl location booted set \(selectedLocation.coordinates.latitude),\(selectedLocation.coordinates.longitude)"))
+                        VStack{
+                            Button("Send to simulator", systemImage: "paperplane") {
+                                sendToSimulator(location: selectedLocation)
+                            }.disabled(self.isTracking)
+                            Toggle("send every location", isOn: self.$isTracking).toggleStyle(.switch).font(.footnote).controlSize(.small)
                         }
                     }
                 } label: {
                   Label("Location on map", systemImage: "mappin.and.ellipse")
-                }
+                }.padding(5)
             }
         }.padding()
+            .onChange(of: self.selectedLocation) { oldValue, newValue in
+                if(self.isTracking && newValue != nil){
+                    sendToSimulator(location: newValue!)
+                }
+            }
     }
     
     ///
@@ -117,7 +128,6 @@ struct SearchView: View {
             print("No Matching Location Found")
         }
     }
-    
 }
 
 #Preview {
