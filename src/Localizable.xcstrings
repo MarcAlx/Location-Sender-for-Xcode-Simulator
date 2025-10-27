@@ -34,6 +34,20 @@
         }
       }
     },
+    "hello" : {
+
+    },
+    "tab.routing" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Routing"
+          }
+        }
+      }
+    },
     "tab.search" : {
       "extractionState" : "manual",
       "localizations" : {
