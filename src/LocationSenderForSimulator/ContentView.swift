@@ -2,9 +2,16 @@ import MapKit
 import SwiftUI
 import Foundation
 
-struct Location {
-    public var address:String
-    public var coordinates:CLLocationCoordinate2D
+struct Location: Equatable {
+    public var address: String
+    public var coordinates: CLLocationCoordinate2D
+    
+    // checks equity
+    static func == (lhs: Location, rhs: Location) -> Bool {
+           lhs.address == rhs.address
+        && lhs.coordinates.latitude == rhs.coordinates.latitude
+        && lhs.coordinates.longitude == rhs.coordinates.longitude
+    }
 }
 
 struct ContentView: View {
@@ -13,6 +20,12 @@ struct ContentView: View {
     
     //location selected by user
     @State private var selectedLocation:Location? = nil
+    
+    //where camera look at
+    @State private var cameraPosition: MapCameraPosition = .automatic
+    
+    //current
+    @State private var currentSpan = MKCoordinateSpan(latitudeDelta: 0.030, longitudeDelta: 0.030)
     
     var body: some View {
         VStack {
@@ -29,12 +42,28 @@ struct ContentView: View {
             }
             //map reader to ease conversion to UI click to coordinated
             MapReader { proxy in
-                Map(interactionModes: [.all]) {
+                Map(position: $cameraPosition, interactionModes: [.all]) {
                     //place location on map
                     if let selectedLocation {
-                        Marker(selectedLocation.address, coordinate: selectedLocation.coordinates)
+                        Marker(selectedLocation.address, systemImage: "mappin", coordinate: selectedLocation.coordinates)
                     }
-                }.mapStyle(.standard)
+                }
+                //watch for camera change to preserve zoom level
+                .onMapCameraChange(frequency: .onEnd) { context in
+                    currentSpan = context.region.span
+                }
+                //when location change, update camera
+                .onChange(of: selectedLocation) { _, newValue in
+                    if let newValue {
+                        withAnimation {
+                            cameraPosition = .region(MKCoordinateRegion(
+                                center: newValue.coordinates,
+                                span: currentSpan
+                            ))
+                        }
+                    }
+                }
+                .mapStyle(.standard)
                      .cornerRadius(10)
                      .onTapGesture { screenPosition in
                          //convert screen position to map coordinates
