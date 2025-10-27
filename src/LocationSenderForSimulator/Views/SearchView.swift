@@ -21,7 +21,7 @@ struct SearchView: View {
     var body: some View {
         VStack {
             HStack{
-                TextField("search for a location", text: $address).onSubmit {
+                TextField("textfield.search.placeholder", text: $address).onSubmit {
                     //on enter search
                     self.geocode(address: self.address)
                 }
@@ -68,17 +68,17 @@ struct SearchView: View {
             if let selectedLocation {
                 GroupBox {
                     HStack{
-                        Text("Searched/clicked location: \(selectedLocation.address)")
+                        Text("text.searchResult.text \(selectedLocation.address)")
                         Spacer()
                         VStack{
-                            Button("Send to simulator", systemImage: "paperplane") {
+                            Button("button.sendToSimulator.text", systemImage: "paperplane") {
                                 sendToSimulator(location: selectedLocation)
                             }.disabled(self.isTracking)
-                            Toggle("send every location", isOn: self.$isTracking).toggleStyle(.switch).font(.footnote).controlSize(.small)
+                            Toggle("toggle.tracking.text", isOn: self.$isTracking).toggleStyle(.switch).font(.footnote).controlSize(.small)
                         }
                     }
                 } label: {
-                  Label("Location on map", systemImage: "mappin.and.ellipse")
+                  Label("groupBox.searchResult.text", systemImage: "mappin.and.ellipse")
                 }.padding(5)
             }
         }.padding()
