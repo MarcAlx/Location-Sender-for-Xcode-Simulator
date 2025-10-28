@@ -15,7 +15,7 @@ struct RoutingView: View {
     @State private var error:Error? = nil
     
     /// playback rate expressed in ms (everytime a new point is sent to simulator)
-    @State private var playbackRate:Double = Double(MIN_POINT_RATE)
+    @State private var playbackRate:Double = Double(DEFAULT_POINT_RATE)
     
     /// current index
     @State private var currentPointIndex:Int = 0
