@@ -120,9 +120,10 @@ struct RoutingView: View {
                 //progress summary
                 GroupBox {
                     Gauge(value: Float(self.currentPointIndex), in: 0...Float(route.geometry.pointCount)) {
-                      Text("text.progress.text")
-                    } currentValueLabel: {
-                        Text("text.pointProgress.text \(String(self.currentPointIndex)) \(String(route.geometry.pointCount))")
+                        HStack{
+                            Text("text.progress.text")
+                            Text("text.pointProgress.text \(String(self.currentPointIndex)) \(String(route.geometry.pointCount))").bold()
+                        }
                     }.gaugeStyle(.accessoryLinearCapacity).tint(.green)
                 } label: {
                   Label("groupBox.routeProgress.text", systemImage: "flag.pattern.checkered")
