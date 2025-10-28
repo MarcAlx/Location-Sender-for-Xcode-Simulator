@@ -62,7 +62,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Pick GeoJSON file"
+            "value" : "Select GeoJSON file"
           }
         }
       }
