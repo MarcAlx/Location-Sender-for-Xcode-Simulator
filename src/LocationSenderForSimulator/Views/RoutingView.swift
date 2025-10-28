@@ -114,7 +114,7 @@ struct RoutingView: View {
                     }
                 } label: {
                   Label("groupBox.routePlayer.text", systemImage: "figure.run")
-                }.padding(5)
+                }
                  .cornerRadius(5)
                 
                 //progress summary
@@ -126,7 +126,7 @@ struct RoutingView: View {
                     }.gaugeStyle(.accessoryLinearCapacity).tint(.green)
                 } label: {
                   Label("groupBox.routeProgress.text", systemImage: "flag.pattern.checkered")
-                }.padding(5)
+                }
                  .cornerRadius(5)
             }
             else {
@@ -166,7 +166,7 @@ struct RoutingView: View {
             self.stopTimer()
             self.startTimer()
         }
-        .padding(5)
+        .padding()
     }
     
     /// to display an error in alert

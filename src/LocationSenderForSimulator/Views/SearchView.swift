@@ -79,8 +79,7 @@ struct SearchView: View {
                     }
                 } label: {
                   Label("groupBox.searchResult.text", systemImage: "mappin.and.ellipse")
-                }.padding(5)
-                 .cornerRadius(5)
+                }.cornerRadius(5)
             }
         }.padding()
          .onChange(of: self.selectedLocation) { oldValue, newValue in
