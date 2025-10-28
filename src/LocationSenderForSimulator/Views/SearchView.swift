@@ -2,22 +2,29 @@ import MapKit
 import SwiftUI
 import Foundation
 
-struct Location {
-    public var address:String
-    public var coordinates:CLLocationCoordinate2D
-}
-
-struct ContentView: View {
+struct SearchView: View {
     //address tapped by user
     @State private var address: String = ""
     
     //location selected by user
     @State private var selectedLocation:Location? = nil
     
+    //where camera look at
+    @State private var cameraPosition: MapCameraPosition = .automatic
+    
+    //current
+    @State private var currentSpan = MKCoordinateSpan(latitudeDelta: 0.030, longitudeDelta: 0.030)
+        
+    //if true location is automatically sent to simulator
+    @State private var isTracking:Bool = false
+    
     var body: some View {
         VStack {
             HStack{
-                TextField("search for a location", text: $address)
+                TextField("textfield.search.placeholder", text: $address).onSubmit {
+                    //on enter search
+                    self.geocode(address: self.address)
+                }
                 Button {
                     self.geocode(address: self.address)
                 } label: {
@@ -26,13 +33,29 @@ struct ContentView: View {
             }
             //map reader to ease conversion to UI click to coordinated
             MapReader { proxy in
-                Map(interactionModes: [.all]) {
+                Map(position: $cameraPosition, interactionModes: [.all]) {
                     //place location on map
                     if let selectedLocation {
-                        Marker(selectedLocation.address, coordinate: selectedLocation.coordinates)
+                        Marker(selectedLocation.address, systemImage: "mappin", coordinate: selectedLocation.coordinates)
                     }
-                }.mapStyle(.standard)
-                     .cornerRadius(10)
+                }
+                //watch for camera change to preserve zoom level
+                .onMapCameraChange(frequency: .onEnd) { context in
+                    currentSpan = context.region.span
+                }
+                //when location change, update camera
+                .onChange(of: selectedLocation) { _, newValue in
+                    if let newValue {
+                        withAnimation {
+                            cameraPosition = .region(MKCoordinateRegion(
+                                center: newValue.coordinates,
+                                span: currentSpan
+                            ))
+                        }
+                    }
+                }
+                .mapStyle(.standard)
+                     .cornerRadius(5)
                      .onTapGesture { screenPosition in
                          //convert screen position to map coordinates
                          if let mapCoordinate = proxy.convert(screenPosition, from: .local)
@@ -42,16 +65,29 @@ struct ContentView: View {
                      }
             }
             //summary area
-            HStack{
-                if let selectedLocation {
-                    Text("Searched/clicked location: \(selectedLocation.address)")
-                    Spacer()
-                    Button("Send to simulator", systemImage: "paperplane") {
-                        print(shell("xcrun simctl location booted set \(selectedLocation.coordinates.latitude),\(selectedLocation.coordinates.longitude)"))
+            if let selectedLocation {
+                GroupBox {
+                    HStack{
+                        Text("text.searchResult.text \(selectedLocation.address)")
+                        Spacer()
+                        VStack{
+                            Button("button.sendToSimulator.text", systemImage: "paperplane") {
+                                sendToSimulator(location: selectedLocation)
+                            }.disabled(self.isTracking)
+                            Toggle("toggle.tracking.text", isOn: self.$isTracking).toggleStyle(.switch).font(.footnote).controlSize(.small)
+                        }
                     }
-                }
+                } label: {
+                  Label("groupBox.searchResult.text", systemImage: "mappin.and.ellipse")
+                }.padding(5)
+                 .cornerRadius(5)
             }
         }.padding()
+         .onChange(of: self.selectedLocation) { oldValue, newValue in
+             if(self.isTracking && newValue != nil){
+                 sendToSimulator(location: newValue!)
+             }
+         }
     }
     
     ///
@@ -93,42 +129,8 @@ struct ContentView: View {
             print("No Matching Location Found")
         }
     }
-    
-    ///
-    /// converts a placem mark to a human readable address
-    ///
-    func inlineAddress(from placemark: CLPlacemark) -> String {
-        let name = placemark.name ?? ""
-        let street = placemark.thoroughfare ?? ""
-        let city = placemark.locality ?? ""
-        let state = placemark.administrativeArea ?? ""
-        let postalCode = placemark.postalCode ?? ""
-        let country = placemark.country ?? ""
-
-        return "\(name)\(name != "" && street != "" ? ", " : " ")\(street)\(street != "" && postalCode != "" ? ", " : " ")\(postalCode)\(postalCode != "" && city != "" ? ", " : " ") \(city)\(city != "" && state != "" ? ", " : " ")\(state)\(state != "" && country != "" ? ", " : " ")\(country)"
-    }
-    
-    ///
-    /// run a shell command, requires that the app is not sandboxed
-    ///
-    private func shell(_ command: String) -> String {
-        let task = Process()
-        let pipe = Pipe()
-        
-        task.standardOutput = pipe
-        task.standardError = pipe
-        task.arguments = ["-c", command]
-        task.launchPath = "/bin/zsh"
-        task.standardInput = nil
-        task.launch()
-        
-        let data = pipe.fileHandleForReading.readDataToEndOfFile()
-        let output = String(data: data, encoding: .utf8)!
-        
-        return output
-    }
 }
 
 #Preview {
-    ContentView()
+    SearchView()
 }
