@@ -166,6 +166,17 @@
         }
       }
     },
+    "text.noRoutePicked.text" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No GeoJSON file selected"
+          }
+        }
+      }
+    },
     "text.searchResult.text %@" : {
       "localizations" : {
         "en" : {
