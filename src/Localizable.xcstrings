@@ -1,6 +1,50 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "alert.error.title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "An error occured"
+          }
+        }
+      }
+    },
+    "alert.error.unknownMessage" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "An unknown error occured"
+          }
+        }
+      }
+    },
+    "alter.error.okButton" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ok"
+          }
+        }
+      }
+    },
+    "button.geojson" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "What is GeoJSON ?"
+          }
+        }
+      }
+    },
     "button.info" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -8,6 +52,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Info"
+          }
+        }
+      }
+    },
+    "button.pickRoute.text" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Select GeoJSON file"
           }
         }
       }
@@ -23,6 +78,71 @@
         }
       }
     },
+    "error.emptyGeoJson.description" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No GeoJSON object in provided file"
+          }
+        }
+      }
+    },
+    "error.inaccessiblefile.description" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inacessible GeoJSON file"
+          }
+        }
+      }
+    },
+    "error.invalidGeoJson.description %@" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Invalid GeoJSON file provided: %@"
+          }
+        }
+      }
+    },
+    "error.invalidGeometry.description" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unsupported geometry type found in first object of provided GeoJSON file, expected any multi point geometry type."
+          }
+        }
+      }
+    },
+    "groupBox.routePlayer.text" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Route player"
+          }
+        }
+      }
+    },
+    "groupBox.routeProgress.text" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Progress"
+          }
+        }
+      }
+    },
     "groupBox.searchResult.text" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -30,6 +150,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Location on map"
+          }
+        }
+      }
+    },
+    "tab.routing" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Routing"
           }
         }
       }
@@ -45,8 +176,89 @@
         }
       }
     },
-    "text.searchResult.text %@" : {
+    "text.currentPointRate.text %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ ms"
+          }
+        }
+      }
+    },
+    "text.geosjson.text" : {
       "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "geojson file:"
+          }
+        }
+      }
+    },
+    "text.noRoutePicked.text" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No GeoJSON file selected"
+          }
+        }
+      }
+    },
+    "text.pointMaxRate.text %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ ms"
+          }
+        }
+      }
+    },
+    "text.pointMinRate.text %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ ms"
+          }
+        }
+      }
+    },
+    "text.pointProgress.text %@ %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ / %@"
+          }
+        }
+      }
+    },
+    "text.pointSender.text" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Send point every:"
+          }
+        }
+      }
+    },
+    "text.progress.text" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Done:"
+          }
+        }
+      }
+    },
+    "text.searchResult.text %@" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {

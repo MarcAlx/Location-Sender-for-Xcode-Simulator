@@ -8,6 +8,9 @@ struct MainView: View {
             Tab("tab.search", systemImage: "magnifyingglass") {
                 SearchView()
             }
+            Tab("tab.routing", systemImage: "point.bottomleft.forward.to.arrow.triangle.scurvepath") {
+                RoutingView()
+            }
         }.toolbar {
             ToolbarItem(placement: .automatic) {
                 Button(action: {

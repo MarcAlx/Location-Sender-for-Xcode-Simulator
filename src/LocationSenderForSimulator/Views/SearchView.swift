@@ -55,7 +55,7 @@ struct SearchView: View {
                     }
                 }
                 .mapStyle(.standard)
-                     .cornerRadius(10)
+                     .cornerRadius(5)
                      .onTapGesture { screenPosition in
                          //convert screen position to map coordinates
                          if let mapCoordinate = proxy.convert(screenPosition, from: .local)
@@ -80,13 +80,14 @@ struct SearchView: View {
                 } label: {
                   Label("groupBox.searchResult.text", systemImage: "mappin.and.ellipse")
                 }.padding(5)
+                 .cornerRadius(5)
             }
         }.padding()
-            .onChange(of: self.selectedLocation) { oldValue, newValue in
-                if(self.isTracking && newValue != nil){
-                    sendToSimulator(location: newValue!)
-                }
-            }
+         .onChange(of: self.selectedLocation) { oldValue, newValue in
+             if(self.isTracking && newValue != nil){
+                 sendToSimulator(location: newValue!)
+             }
+         }
     }
     
     ///
