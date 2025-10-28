@@ -83,11 +83,11 @@ struct SearchView: View {
                  .cornerRadius(5)
             }
         }.padding()
-            .onChange(of: self.selectedLocation) { oldValue, newValue in
-                if(self.isTracking && newValue != nil){
-                    sendToSimulator(location: newValue!)
-                }
-            }
+         .onChange(of: self.selectedLocation) { oldValue, newValue in
+             if(self.isTracking && newValue != nil){
+                 sendToSimulator(location: newValue!)
+             }
+         }
     }
     
     ///
