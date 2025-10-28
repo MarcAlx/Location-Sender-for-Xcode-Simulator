@@ -23,9 +23,9 @@ Simple app to ease custom location sending to Xcode Simulator.
 
 Routing mode relies on [GeoJSON](https://geojson.org) file. 
 
-This way you can provide your own route made of WGS84 coordinates. Your GeoJSON may contain the following objects :
+This way you can provide your own route made of WGS84 coordinates. Your GeoJSON may contain one of the following object:
  
-| Objects | Behavior |
+| Object | Behavior |
 | - | - |
 | Linestring | Each point will be considered as part of the route | 
 | MultiPoint | Each point will be considered as part of a single line/route |
