@@ -14,8 +14,24 @@ struct RoutingView: View {
     /// error presented in alert if any
     @State private var error:Error? = nil
     
+    /// playback rate expressed in ms (everytime a new point is sent to simulator)
+    @State private var playbackRate:Double = Double(MIN_POINT_RATE)
+    
+    /// current index
+    @State private var currentPointIndex:Int = 0
+    
+    /// true if point are sent to simulator
+    @State private var isPlaying:Bool = false
+    
+    /// true if playback is looping
+    @State private var isLooping:Bool = false
+    
+    /// timer used for playback, run as soon as a route is provided, it's isPlaying that decide if something is sent to simulator
+    @State private var playbackTimer:Timer? = nil
+    
     var body: some View {
         VStack{
+            //header
             HStack {
                 Button("button.pickRoute.text", systemImage: "folder") {
                     self.fileImporterPresented = true
@@ -29,7 +45,10 @@ struct RoutingView: View {
                     Image(systemName: "questionmark.text.page")
                 }
             }
+            
+            //if any route is selected
             if let route = route {
+                //file summary
                 GroupBox {
                     HStack {
                         HStack {
@@ -41,12 +60,73 @@ struct RoutingView: View {
                             self.clearGeoJson()
                         } label: {
                             Image(systemName: "xmark")
-                        } .buttonStyle(.borderless)
+                        }.buttonStyle(.borderless)
                     }
                 }.cornerRadius(5)
+                
+                //map
                 Map {
                     MapPolyline(route.asPolyline).stroke(.blue, lineWidth: 5)
+                    if(self.currentPointIndex>0){
+                        MapPolyline(MKPolyline(points: route.geometry.points(), count: self.currentPointIndex)).stroke(.green, lineWidth: 5)
+                    }
                 }.mapStyle(.standard)
+                 .cornerRadius(5)
+                
+                //playback control
+                GroupBox {
+                    HStack{
+                        Button {
+                            self.currentPointIndex = 0
+                        } label: {
+                            Image(systemName: "arrow.left.to.line")
+                        }.buttonStyle(.borderless)
+                        
+                        Button {
+                            self.isPlaying = !self.isPlaying
+                        } label: {
+                            Image(systemName: self.isPlaying ?  "pause" : "play")
+                        }.buttonStyle(.borderless)
+                        
+                        Button {
+                            self.isLooping = !self.isLooping
+                        } label: {
+                            Image(systemName: self.isLooping ?  "repeat.circle.fill" : "repeat.circle")
+                        }.buttonStyle(.borderless)
+                     
+                        Divider().frame(width:2, height: 30)
+                        
+                        VStack{
+                            HStack{
+                                Text("text.pointSender.text").font(.footnote)
+                                Text("text.currentPointRate.text \(String(self.playbackRate))").font(.footnote).bold()
+                                Spacer()
+                            }
+                            
+                            Slider(value: self.$playbackRate, in:  Double(MIN_POINT_RATE)...Double(MAX_POINT_RATE), step:Double(POINT_RATE_STEP)) {
+                            } minimumValueLabel: {
+                                Text("text.pointMinRate.text \(String(MIN_POINT_RATE))")
+                            } maximumValueLabel: {
+                                Text("text.pointMaxRate.text \(String(MAX_POINT_RATE))")
+                            }
+                            
+                        }
+                    }
+                } label: {
+                  Label("groupBox.routePlayer.text", systemImage: "figure.run")
+                }.padding(5)
+                 .cornerRadius(5)
+                
+                //progress summary
+                GroupBox {
+                    Gauge(value: Float(self.currentPointIndex), in: 0...Float(route.geometry.pointCount)) {
+                      Text("text.progress.text")
+                    } currentValueLabel: {
+                        Text("text.pointProgress.text \(String(self.currentPointIndex)) \(String(route.geometry.pointCount))")
+                    }.gaugeStyle(.accessoryLinearCapacity).tint(.green)
+                } label: {
+                  Label("groupBox.routeProgress.text", systemImage: "flag.pattern.checkered")
+                }.padding(5)
                  .cornerRadius(5)
             }
             else {
@@ -59,6 +139,7 @@ struct RoutingView: View {
             case .success(_):
                 do {
                     self.route = try decode(geoJsonFile: try res.get())
+                    self.startTimer()
                 }
                 catch{
                     self.declareError(err: error)
@@ -79,6 +160,12 @@ struct RoutingView: View {
                       dismissButton: .default(Text("alter.error.okButton")))
             }
         }
+        // when playback rate change
+        .onChange(of: self.playbackRate) { oldValue, newValue in
+            //restart timer to adjust frequency, without re-initing index
+            self.stopTimer()
+            self.startTimer()
+        }
         .padding(5)
     }
     
@@ -91,6 +178,37 @@ struct RoutingView: View {
     /// unload current GeoJson
     private func clearGeoJson() {
         self.route = nil
+        self.currentPointIndex = 0
+        self.stopTimer()
+    }
+    
+    /// call every time timer steps
+    private func run(timer:Timer)->Void {
+        if let route = self.route {
+            if(self.isPlaying && self.currentPointIndex < route.geometry.pointCount){
+                sendToSimulator(location: Location(address: "", coordinates: route.geometry.points()[self.currentPointIndex].coordinate))
+                self.currentPointIndex = (self.currentPointIndex + 1) % route.geometry.pointCount
+                
+                //when reaching end, keep playing only if looping
+                if(self.currentPointIndex == 0){
+                    self.isPlaying = self.isLooping
+                }
+            }
+        }
+    }
+    
+    /// start timer
+    private func startTimer() {
+        //stop any pending timer before
+        if let timer = self.playbackTimer {
+            timer.invalidate()
+        }
+        self.playbackTimer = Timer.scheduledTimer(withTimeInterval: self.playbackRate/1000, repeats: true, block: run)
+    }
+    
+    /// stop timer
+    private func stopTimer() {
+        self.playbackTimer?.invalidate()
     }
 }
 

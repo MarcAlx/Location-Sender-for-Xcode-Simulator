@@ -122,6 +122,27 @@
         }
       }
     },
+    "groupBox.routePlayer.text" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Route player"
+          }
+        }
+      }
+    },
+    "groupBox.routeProgress.text" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Progress"
+          }
+        }
+      }
+    },
     "groupBox.searchResult.text" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -155,6 +176,16 @@
         }
       }
     },
+    "text.currentPointRate.text %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ ms"
+          }
+        }
+      }
+    },
     "text.geosjson.text" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -173,6 +204,56 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "No GeoJSON file selected"
+          }
+        }
+      }
+    },
+    "text.pointMaxRate.text %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ ms"
+          }
+        }
+      }
+    },
+    "text.pointMinRate.text %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ ms"
+          }
+        }
+      }
+    },
+    "text.pointProgress.text %@ %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ / %@"
+          }
+        }
+      }
+    },
+    "text.pointSender.text" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Send point every:"
+          }
+        }
+      }
+    },
+    "text.progress.text" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Done:"
           }
         }
       }
