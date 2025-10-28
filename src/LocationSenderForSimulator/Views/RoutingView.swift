@@ -1,4 +1,5 @@
 import SwiftUI
+import MapKit
 
 struct RoutingView: View {
     /// to display file importer
@@ -28,7 +29,7 @@ struct RoutingView: View {
                     Image(systemName: "questionmark.text.page")
                 }
             }
-            if(hasRoute()) {
+            if let route = route {
                 GroupBox {
                     HStack {
                         HStack {
@@ -42,9 +43,17 @@ struct RoutingView: View {
                             Image(systemName: "xmark")
                         } .buttonStyle(.borderless)
                     }
-                }
+                }.cornerRadius(5)
+                Map {
+                    MapPolyline(route.asPolyline).stroke(.blue, lineWidth: 5)
+                }.mapStyle(.standard)
+                 .cornerRadius(5)
             }
-            Spacer()
+            else {
+                Spacer()
+                Text("text.noRoutePicked.text").italic()
+                Spacer()
+            }
         }.fileImporter(isPresented: self.$fileImporterPresented, allowedContentTypes:[.geoJSON, .json, .text, .plainText], onCompletion: { (res) in
             switch res {
             case .success(_):
@@ -77,11 +86,6 @@ struct RoutingView: View {
     private func declareError(err:Error){
         self.hasError = true
         self.error = err
-    }
-    
-    /// true if valid geojson has been loaded
-    private func hasRoute() -> Bool {
-        return self.route != nil
     }
     
     /// unload current GeoJson

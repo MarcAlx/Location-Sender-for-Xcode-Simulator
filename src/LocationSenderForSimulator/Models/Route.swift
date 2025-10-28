@@ -10,4 +10,9 @@ public struct Route {
     
     /// relevant geometry in geojson
     public private(set) var geometry:MKMultiPoint
+    
+    /// cast geometry as polyline
+    public var asPolyline:MKPolyline {
+        return MKPolyline(points: geometry.points(), count: geometry.pointCount)
+    }
 }
