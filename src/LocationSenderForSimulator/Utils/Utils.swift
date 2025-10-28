@@ -98,6 +98,20 @@ public func tryGetValidGeometryFromObject(object: MKGeoJSONObject) -> MKMultiPoi
         }
         //no valid geom -> nil
         return nil
+    //multi polyline -> keep first (if any)
+    case let multiPolyline as MKMultiPolyline:
+        if(!multiPolyline.polylines.isEmpty
+        && multiPolyline.polylines[0].pointCount>1){
+            return multiPolyline.polylines[0]
+        }
+        return nil
+    //multi polygone -> keep first (if any)
+    case let multiPolygon as MKMultiPolygon:
+        if(!multiPolygon.polygons.isEmpty
+        && multiPolygon.polygons[0].pointCount>1){
+            return multiPolygon.polygons[0]
+        }
+        return nil
     //multi points -> that's what we are looking for
     case let multiPoints as MKMultiPoint:
         return multiPoints
