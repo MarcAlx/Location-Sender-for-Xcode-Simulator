@@ -55,14 +55,17 @@ struct SearchView: View {
                     }
                 }
                 .mapStyle(.standard)
-                     .cornerRadius(5)
-                     .onTapGesture { screenPosition in
-                         //convert screen position to map coordinates
-                         if let mapCoordinate = proxy.convert(screenPosition, from: .local)
-                         {
-                             self.reverseGeocode(location: mapCoordinate)
-                         }
-                     }
+                .cornerRadius(5)
+                .highPriorityGesture(
+                    DragGesture(minimumDistance: 0)//drag gesture instead of tap to get screen location 
+                        .onEnded { value in
+                            let screenPosition = value.location
+                            //convert screen position to map coordinates
+                            if let mapCoordinate = proxy.convert(screenPosition, from: .local) {
+                                self.reverseGeocode(location: mapCoordinate)
+                            }
+                        }
+                )
             }
             //summary area
             if let selectedLocation {
