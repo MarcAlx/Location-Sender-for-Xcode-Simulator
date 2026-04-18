@@ -7,10 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C232E7D72F93BC58001E4CC3 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = C232E7D62F93BC58001E4CC3 /* README.md */; };
 		E1E97FB62EAFC639008003DD /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = E1E97FB52EAFC639008003DD /* Localizable.xcstrings */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		C232E7D62F93BC58001E4CC3 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = SOURCE_ROOT; };
 		E1C437A72E0000FC004E591C /* LocationSenderForSimulator.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LocationSenderForSimulator.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E1E97FB52EAFC639008003DD /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -37,6 +39,7 @@
 		E1C4379E2E0000FC004E591C = {
 			isa = PBXGroup;
 			children = (
+				C232E7D62F93BC58001E4CC3 /* README.md */,
 				E1E97FB52EAFC639008003DD /* Localizable.xcstrings */,
 				E1C437A92E0000FC004E591C /* LocationSenderForSimulator */,
 				E1C437A82E0000FC004E591C /* Products */,
@@ -116,6 +119,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E1E97FB62EAFC639008003DD /* Localizable.xcstrings in Resources */,
+				C232E7D72F93BC58001E4CC3 /* README.md in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
