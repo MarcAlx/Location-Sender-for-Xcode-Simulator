@@ -2,6 +2,8 @@ import SwiftUI
 import MapKit
 
 struct RoutingView: View {
+    @Environment(\.openURL) private var openURL
+    
     /// to display file importer
     @State private var fileImporterPresented:Bool = false
     
@@ -39,7 +41,7 @@ struct RoutingView: View {
                 Spacer()
                 Button {
                     if let url = URL(string:  "https://geojson.org"){
-                        EnvironmentValues().openURL(url)
+                        openURL(url)
                     }
                 } label: {
                     Image(systemName: "questionmark.text.page")

@@ -3,6 +3,8 @@ import SwiftUI
 import Foundation
 
 struct MainView: View {
+    @Environment(\.openURL) private var openURL
+    
     var body: some View {
         TabView {
             Tab("tab.search", systemImage: "magnifyingglass") {
@@ -15,7 +17,7 @@ struct MainView: View {
             ToolbarItem(placement: .automatic) {
                 Button(action: {
                     if let url = URL(string:  "https://github.com/MarcAlx/Location-Sender-for-Xcode-Simulator"){
-                        EnvironmentValues().openURL(url) 
+                        openURL(url) 
                     }
                 }) {
                     Label("button.info", systemImage: "info.circle")
