@@ -50,6 +50,11 @@ _n.b this app is not compatible with App Sandbox_
 
 ## Changelog
 
+### v2.0.1
+
+- [design] use new icon made with Icon Composer 
+- [fix] ensure compatibility with macOS 26
+
 ### v2.0.0
 
 - [routing] Introduce routing mode via GeoJSON file
